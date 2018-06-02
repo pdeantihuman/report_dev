@@ -22,7 +22,9 @@
                                 @endforeach
                             </ul>
                         </div>
-                        {{ $issues->links() }}
+                        <div class="container">
+                            {{ $issues->links() }}
+                        </div>
                     </div>
                 </div>
             </div>
