@@ -6,7 +6,7 @@
  * Time: 下午4:33
  */?>
 
-@extends('layouts.app')
+@extends('layouts.app_with_js')
 
 @section('content')
     <div class="container">
@@ -35,3 +35,6 @@
     </div>
 @endsection
 
+@section('scripts')
+    <script src="{{ asset('js/index.js') }}"></script>
+@endsection
