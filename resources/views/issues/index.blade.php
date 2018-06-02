@@ -11,14 +11,17 @@
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">后台管理</div>
                     <div class="card-body">
                         <div class="container">
                             <ul class="list-group">
                                 @foreach($issues as $issue)
-                                    <li class="list-group-item">{{ $issue->description }}</li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        {{ $issue->description }}
+                                        <button type="button" class="btn btn-primary">解决</button>
+                                    </li>
                                 @endforeach
                                 <li class="list-group-item">
                                     {{ $issues->links() }}
