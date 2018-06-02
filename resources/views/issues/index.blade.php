@@ -22,8 +22,8 @@
                                 @endforeach
                             </ul>
                         </div>
+                        {{ $issues->links() }}
                     </div>
-                    {{ $issues->links() }}
                 </div>
             </div>
         </div>
