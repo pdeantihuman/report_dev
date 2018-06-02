@@ -23,6 +23,7 @@
                             </ul>
                         </div>
                     </div>
+                    {{ $issues->links() }}
                 </div>
             </div>
         </div>
