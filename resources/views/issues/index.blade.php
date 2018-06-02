@@ -18,7 +18,7 @@
                         <div class="container">
                             <ul class="list-group">
                                 @foreach($issues as $issue)
-                                    <issues-item>{{ $issue->description }}</issues-item>
+                                    <issues-item id="item-{{$issue->id}}">{{ $issue->description }}</issues-item>
                                 @endforeach
                                 <li class="list-group-item">
                                     {{ $issues->links() }}
