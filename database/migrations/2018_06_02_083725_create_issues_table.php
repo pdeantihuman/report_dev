@@ -18,6 +18,7 @@ class CreateIssuesTable extends Migration
             $table->integer("alley");
             $table->integer('room');
             $table->text('description');
+            $table->boolean('isOpen')->default(True);
             $table->timestamps();
         });
     }
