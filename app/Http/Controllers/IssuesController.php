@@ -14,7 +14,7 @@ class IssuesController extends Controller
      */
     public function index()
     {
-        $issues = Issue::latest()->paginate(15);
+        $issues = Issue::oldest()->paginate(15);
         return view('issues.index',compact('issues'));
     }
 
