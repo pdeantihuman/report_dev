@@ -29,7 +29,7 @@ class TestIssues extends TestCase
     }
 
     public function testBatchStore(){
-        foreach (range(0,50) as $i){
+        foreach (range(0,100) as $i){
             $this->testStore();
         }
     }
