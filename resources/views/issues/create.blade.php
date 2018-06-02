@@ -14,7 +14,7 @@
                         <div class="form-group row">
                             <label for="alley" class="col-sm-4 col-form-label text-md-right">教学楼</label>
                             <div class="col-md-6">
-                                <input id="alley" type="text" class="form-control{{ $errors->has('alley') ? ' is-invalid' : '' }}" name="alley" value="{{ old('alley') }}" required autofocus>
+                                <input id="alley" type="number" class="form-control{{ $errors->has('alley') ? ' is-invalid' : '' }}" name="alley" value="{{ old('alley') }}" required autofocus>
                                 @if ($errors->has('alley'))
                                     <span class="invalid-feedback">
                                         <strong>{{ $errors->first('alley') }}</strong>
@@ -26,7 +26,7 @@
                         <div class="form-group row">
                             <label for="room" class="col-sm-4 col-form-label text-md-right">教室</label>
                             <div class="col-md-6">
-                                <input id="room" type="text" class="form-control{{ $errors->has('room') ? ' is-invalid' : '' }}" name="room" value="" required autofocus>
+                                <input id="room" type="number" class="form-control{{ $errors->has('room') ? ' is-invalid' : '' }}" name="room" value="" required autofocus>
                                 @if ($errors->has('room'))
                                     <span class="invalid-feedback">
                                         <strong>{{ $errors->first('room') }}</strong>
