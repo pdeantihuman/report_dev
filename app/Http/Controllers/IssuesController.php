@@ -25,7 +25,7 @@ class IssuesController extends Controller
      */
     public function create()
     {
-        //
+        return view('issues.create');
     }
 
     /**
