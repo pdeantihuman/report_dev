@@ -36,7 +36,9 @@ class IssuesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $issue = Issue::fill($request->all());
+        $issue->save();
+        return view('issues.home');
     }
 
     /**
