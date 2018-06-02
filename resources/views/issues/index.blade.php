@@ -18,10 +18,7 @@
                         <div class="container">
                             <ul class="list-group">
                                 @foreach($issues as $issue)
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        {{ $issue->description }}
-                                        <button type="button" class="btn btn-primary">解决</button>
-                                    </li>
+                                    <issues-item>{{ $issue->description }}</issues-item>
                                 @endforeach
                                 <li class="list-group-item">
                                     {{ $issues->links() }}
