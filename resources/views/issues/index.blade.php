@@ -20,10 +20,10 @@
                                 @foreach($issues as $issue)
                                     <li class="list-group-item">{{ $issue->description }}</li>
                                 @endforeach
+                                <li class="list-group-item">
+                                    {{ $issues->links() }}
+                                </li>
                             </ul>
-                        </div>
-                        <div class="container">
-                            {{ $issues->links() }}
                         </div>
                     </div>
                 </div>
