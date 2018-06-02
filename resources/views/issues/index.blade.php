@@ -18,7 +18,7 @@
                         <div class="container">
                             <ul class="list-group">
                                 @foreach($issues as $issue)
-                                    <issues-item issues_id="{{ $issue->id }}">
+                                    <issues-item issues_id="{{ $issue->id }}" @if($issue->isRoot) disabled @endif>
                                         {{ $issue->alley.' 教 '.$issue->room.'教室 描述：'. $issue->description }}
                                     </issues-item>
                                 @endforeach
