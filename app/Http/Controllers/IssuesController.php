@@ -34,9 +34,9 @@ class IssuesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Issue $issue)
     {
-        $issue = Issue::fill($request->all());
+        $issue = $issue->fill($request->all());
         $issue->save();
         return view('issues.home');
     }
