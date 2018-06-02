@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Issue whereRoom($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Issue whereUpdatedAt($value)
  * @method static \Illuminate\Contracts\Pagination\LengthAwarePaginator paginate(int $perPage, array $columns, string $pageName, int|null $page)
+ * @method static \Illuminate\Database\Eloquent\Builder fill(array $attributes)
  */
 class Issue extends Model
 {
