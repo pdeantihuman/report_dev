@@ -15,7 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/issues','IssuesController@index');
+Route::resource('issues', 'IssuesController');
 
 Auth::routes();
 
