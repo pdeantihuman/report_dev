@@ -14,7 +14,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">后台管理</div>
-                    <div class="card-body" id="app">
+                    <div class="card-body">
                         <div class="container">
                             <ul class="list-group">
                                 @foreach($issues as $issue)
