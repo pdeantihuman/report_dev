@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $alley
  * @property int $room
  * @property string $description
+ * @property bool $isOpen
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Issue whereAlley($value)

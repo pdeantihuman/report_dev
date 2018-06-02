@@ -72,7 +72,10 @@ class IssuesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $issue = Issue::findOrFail($id);
+        $issue->isOpen = false;
+        $issue->save();
+        return response()->json([],200);
     }
 
     /**
