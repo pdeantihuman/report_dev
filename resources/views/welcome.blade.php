@@ -84,8 +84,8 @@
                 <div class="links">
                     <a href="{{ route('issues.create') }}">打开报修</a>
                     <a href="{{ route('issues.index') }}">处理报修</a>
-                    <a href="//118.25.72.56/mobile">帮助手册</a>
-                    <a href="//118.25.72.56/">编辑手册</a>
+                    <a href="//123.206.59.147/mobile">帮助手册</a>
+                    <a href="//123.206.59.147/">编辑手册</a>
                 </div>
             </div>
         </div>
