@@ -21,8 +21,9 @@
                                     <issues-item
                                             issues_id="{{ $issue->id }}"
                                             location="{{ $issue->alley.' 教 '.$issue->room.'教室' }}"
-                                            description="{{ '描述：'. $issue->description }}"
+                                            description="{{ $issue->description }}"
                                             is_open="{{ $issue->isOpen }}"
+                                            datetime="{{ $issue->created_at }}"
                                     >
                                     </issues-item>
                                 @endforeach
