@@ -16,7 +16,7 @@ Route::get('/', function () {
 });
 
 Route::resource('issues', 'IssuesController')
-    ->only('create');
+    ->only(['create', 'store']);
 
 Route::resource('issues','IssuesController')
     ->only(['index','update'])->middleware('auth');
