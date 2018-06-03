@@ -16,10 +16,14 @@ Route::get('/', function () {
 });
 
 Route::resource('issues', 'IssuesController')
-->only('create');
+    ->only('create');
 
 Route::resource('issues','IssuesController')
-    ->only(['index','create','store'])->middleware('auth');
+    ->only(['index'])->middleware('auth');
+
+Route::resource('issues','IssuesController')
+    ->only(['store'])->middleware('auth:api');
+
 
 Auth::routes();
 
