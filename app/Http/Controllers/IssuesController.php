@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Issue;
+use Hamcrest\Core\Is;
 use Illuminate\Http\Request;
 
 class IssuesController extends Controller
@@ -36,9 +37,21 @@ class IssuesController extends Controller
      */
     public function store(Request $request, Issue $issue)
     {
+        $request->validate([
+            'alley' => 'required|numeric|between:1,12',
+            'room' => 'required|numeric',
+            'description' => 'required',
+        ]);
         $issue = $issue->fill($request->all());
         $issue->save();
         return view('issues.home');
+    }
+
+    public function undo(Request $request){
+        $issue = Issue::findOrFail($request->issue);
+        $issue->isOpen = 1;
+        $issue->save();
+        return response()->json([],200);
     }
 
     /**

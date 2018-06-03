@@ -21,7 +21,7 @@ Route::resource('issues', 'IssuesController')
 Route::resource('issues','IssuesController')
     ->only(['index','update'])->middleware('auth');
 
-
+Route::post('issues/{issue}/undo','IssuesController@undo');
 
 Auth::routes();
 
