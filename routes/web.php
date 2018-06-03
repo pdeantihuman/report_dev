@@ -15,7 +15,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('issues', 'IssuesController');
+Route::resource('issues', 'IssuesController')
+->only('create');
+
+Route::resource('issues','IssuesController')
+    ->only(['index','create','store'])->middleware('auth');
 
 Auth::routes();
 
