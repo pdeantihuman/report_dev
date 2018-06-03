@@ -18,8 +18,12 @@
                         <div class="container">
                             <ul class="list-group">
                                 @foreach($issues as $issue)
-                                    <issues-item issues_id="{{ $issue->id }}" @if($issue->isOpen) disabled @endif>
-                                        {{ $issue->alley.' 教 '.$issue->room.'教室 描述：'. $issue->description }}
+                                    <issues-item
+                                            issues_id="{{ $issue->id }}"
+                                            location="{{ $issue->alley.' 教 '.$issue->room.'教室' }}"
+                                            description="{{ '描述：'. $issue->description }}"
+                                            isOpen="{{ $issue->isOpen }}"
+                                    >
                                     </issues-item>
                                 @endforeach
                                 <li class="list-group-item">
