@@ -22,7 +22,7 @@
                                             issues_id="{{ $issue->id }}"
                                             location="{{ $issue->alley.' 教 '.$issue->room.'教室' }}"
                                             description="{{ '描述：'. $issue->description }}"
-                                            isOpen="{{ $issue->isOpen }}"
+                                            is_open="{{ $issue->isOpen }}"
                                     >
                                     </issues-item>
                                 @endforeach
