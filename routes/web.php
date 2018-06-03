@@ -19,10 +19,8 @@ Route::resource('issues', 'IssuesController')
     ->only('create');
 
 Route::resource('issues','IssuesController')
-    ->only(['index'])->middleware('auth');
+    ->only(['index','update'])->middleware('auth');
 
-Route::resource('issues','IssuesController')
-    ->only(['store'])->middleware('auth:api');
 
 
 Auth::routes();
