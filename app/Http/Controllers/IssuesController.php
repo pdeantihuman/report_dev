@@ -39,7 +39,12 @@ class IssuesController extends Controller
     {
         $request->validate([
             'alley' => 'required|numeric|between:1,12',
-            'room' => 'required|numeric',
+            'room' => ['required','integer',function($attribute, $value, $fail) {
+                $int = (int) $value;
+                if ($int / 100 < 1 or $int / 100 > 8 or $int % 100 < 1 or $int % 100 > 30){
+                    $fail('无效的教室！');
+                }
+            }],
             'description' => 'required',
         ]);
         $issue = $issue->fill($request->all());
