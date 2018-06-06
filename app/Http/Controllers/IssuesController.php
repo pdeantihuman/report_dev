@@ -54,7 +54,8 @@ class IssuesController extends Controller
         $base_url = env('WXINTERFACE');
         $content = 'content='.substr($issue->description,0,10).'&';
         $url = 'url='.url('issues.index').'&';
-        $location = 'room='.$issue->alley.'学楼'.$issue->room.'室'.'&';
+        $location = 'room='.$issue->alley.'教'.$issue->room.'室'.'&';
+        $time = 'time='.$issue->created_at;
         $url = $base_url.'/?'.$content.$url.$location;
         $res = $client->request('GET',$url);
         return view('issues.home');
