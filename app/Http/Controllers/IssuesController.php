@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Issue;
+use GuzzleHttp\Client;
 use Hamcrest\Core\Is;
 use Illuminate\Http\Request;
 
@@ -49,6 +50,13 @@ class IssuesController extends Controller
         ]);
         $issue = $issue->fill($request->all());
         $issue->save();
+        $client = new Client();
+        $base_url = env('WXINTERFACE');
+        $content = 'content='.substr($issue->description,0,10).'&';
+        $url = 'url='.url('issues.index').'&';
+        $location = 'room='.$issue->alley.'学楼'.$issue->room.'室'.'&';
+        $url = $base_url.'/?'.$content.$url.$location;
+        $res = $client->request('GET',$url);
         return view('issues.home');
     }
 
