@@ -76,7 +76,12 @@ class IssuesController extends Controller
      */
     public function show($id)
     {
-        //
+        $issue = Issue::findOrFail($id);
+        $completed = Issue::where('isOpen',true)
+            ->whereDate('created_at', now()->toDateString())->doesntExist();
+        $nextIssue = Issue::where('isOpen',true)->latest()->first(); // TODO: 确认一下能不能得到 id
+
+        return view('',compact('issue')); // 未完待续
     }
 
     /**
