@@ -82,9 +82,8 @@ class IssuesController extends Controller
         $next_issue = Issue::where('isOpen',true)
             ->whereTime('created_at', '<' ,$issue->created_at->toDateTimeString())->first();
         if ($next_issue){
-            $next_issue = [
-                'id' => 0
-            ];
+            $next_issue = new Issue();
+            $next_issue->id = 0;
         }
         $next_id = $next_issue->id;
         return view('',compact('issue','completed','next_id'));
