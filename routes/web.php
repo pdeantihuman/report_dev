@@ -19,7 +19,7 @@ Route::resource('issues', 'IssuesController')
     ->only(['create', 'store']);
 
 Route::resource('issues','IssuesController')
-    ->only(['index','update'])->middleware('auth');
+    ->only(['index','update','show'])->middleware('auth');
 
 Route::post('issues/{issue}/undo','IssuesController@undo');
 
