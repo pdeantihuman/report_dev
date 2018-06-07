@@ -37,6 +37,7 @@ trait IssuesEmitWechat
             $variable = $key.'='.$value.'&';
             $destination = $destination.$variable;
         }
+        \Log::debug($destination);
         /**
          * 发送数据
          */
