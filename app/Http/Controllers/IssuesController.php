@@ -81,7 +81,9 @@ class IssuesController extends Controller
         $completed = Issue::where('isOpen',true)
             ->whereDate('created_at', now()->toDateString())->doesntExist();
         $next_issue = Issue::where('isOpen',true)
-            ->whereTime('created_at', '<' , Carbon::parse($issue->created_at))->first();
+            ->where('id','<',$issue->id)
+            ->orderBy('id','desc')
+            ->first();
         if (is_null($next_issue)){
             $next_issue = new Issue();
             $next_issue->id = 0;
