@@ -78,8 +78,7 @@ class IssuesController extends Controller
     public function show($id)
     {
         $issue = Issue::findOrFail($id);
-        $completed = Issue::where('isOpen',true)
-            ->whereDate('created_at', now()->toDateString())->doesntExist();
+        $completed = Issue::where('isOpen',true)->whereDate('created_at', now()->toDateString())->doesntExist();
         $next_issue = Issue::where('isOpen',true)
             ->where('id','<',$issue->id)
             ->orderBy('id','desc')
