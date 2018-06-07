@@ -86,7 +86,7 @@ class IssuesController extends Controller
             $next_issue->id = 0;
         }
         $next_id = $next_issue->id;
-        return view('',compact('issue','completed','next_id'));
+        return view('issues.show',compact('issue','completed','next_id'));
     }
 
     /**
