@@ -13,16 +13,17 @@
         <!-- Styles -->
         <style>
             html, body {
-                background-color: #fff;
                 color: #636b6f;
                 font-family: 'Raleway', sans-serif;
                 font-weight: 100;
                 height: 100vh;
                 margin: 0;
+                background-color: #f5f8fa;
             }
 
             .full-height {
                 height: 100vh;
+                margin-bottom: -75px;
             }
 
             .flex-center {
@@ -62,6 +63,24 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
+
+            img {
+                height: 124px;
+                width: 124px;
+                margin-right: 5px;
+            }
+
+            span {
+                padding-bottom: 20px;
+            }
+
+            .flo {
+                float: left
+            }
+
+            footer {
+                margin-bottom: 20px;
+            }
         </style>
     </head>
     <body>
@@ -78,7 +97,8 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    {{ config('app.name') }}
+                    <div class="flo"><img src="{{ asset('logo/tianjin.jpg') }}" alt="log"></div>
+                    <span>{{ config('app.name') }}</span>
                 </div>
 
                 <div class="links">
@@ -90,4 +110,11 @@
             </div>
         </div>
     </body>
+
+    <footer>
+        <div style="text-align: center">
+            <p>北京科技大学天津学院 网络中心</p>
+            <p>V1.0</p>
+        </div>
+    </footer>
 </html>
