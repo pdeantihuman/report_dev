@@ -23,7 +23,7 @@ trait IssuesEmitWechat
          * 组装数据
          */
         $data = [
-            'location' => $issue->alley." 教 ".$issue->room." 室",
+            'room' => $issue->alley."教 ".$issue->room."室",
             'time' => $issue->created_at,
             'content' => substr($issue->description,0,10),
             'url' => url('issues',['issue'=>$issue->id])
@@ -37,7 +37,6 @@ trait IssuesEmitWechat
             $variable = $key.'='.$value.'&';
             $destination = $destination.$variable;
         }
-        \Log::debug($destination);
         /**
          * 发送数据
          */
