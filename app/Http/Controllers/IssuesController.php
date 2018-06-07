@@ -3,14 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Issue;
-use Carbon\Carbon;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
-use Hamcrest\Core\Is;
+use App\Traits\IssuesEmitWechat;
 use Illuminate\Http\Request;
 
 class IssuesController extends Controller
 {
+    use IssuesEmitWechat;
     /**
      * Display a listing of the resource.
      *
@@ -57,25 +55,14 @@ class IssuesController extends Controller
     }
 
     /**
-     * @param Issue $issue
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    protected function emitWechat(Issue $issue){
-        $client = new Client();
-        $base_url = env('WXINTERFACE');
-        $content = 'content='.substr($issue->description,0,10).'&';
-        $url = 'url='.url('issues',['issue'=>$issue->id]).'&';
-        $location = 'room='.$issue->alley.'教'.$issue->room.'室'.'&';
-        $time = 'time='.$issue->created_at;
-        $url = $base_url.'/?'.$content.$url.$location.$time;
-        $client->request('GET',$url);
-    }
-
     public function undo(Request $request){
         $issue = Issue::findOrFail($request->issue);
         $issue->isOpen = 1;
         $issue->save();
-        return response()->json([],200);
+        return response()->json([],200); // TODO: 修改状态码
     }
 
     /**
@@ -86,12 +73,18 @@ class IssuesController extends Controller
      */
     public function show($id)
     {
-        $issue = Issue::findOrFail($id);
+        /**
+         * 准备数据
+         */
         $completed = Issue::where('isOpen',true)->whereDate('created_at', now()->toDateString())->doesntExist();
+        $issue = Issue::findOrFail($id);
         $next_issue = Issue::where('isOpen',true)
             ->where('id','<',$issue->id)
             ->orderBy('id','desc')
             ->first();
+        /**
+         * 处理边界情况，前端做好对应
+         */
         if (is_null($next_issue)){
             $next_issue = new Issue();
             $next_issue->id = 0;
@@ -123,7 +116,7 @@ class IssuesController extends Controller
         $issue = Issue::findOrFail($id);
         $issue->isOpen = false;
         $issue->save();
-        return response()->json([],200);
+        return response()->json([],200); // TODO: 修改状态码
     }
 
     /**
