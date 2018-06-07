@@ -4,12 +4,12 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <issues-card issues_id="{{ $this->id }}"
-                         location="{{ $this->alley.' 教 '.$this->room.'教室' }}"
-                         description="{{ $this->description }}"
+            <issues-card issues_id="{{ $issue->id }}"
+                         location="{{ $issue->alley.' 教 '.$issue->room.'教室' }}"
+                         description="{{ $issue->description }}"
                          completed="{{ $completed }}"
                          next_id="{{ $next_id }}"
-                         datetime="{{ $this->created_at }}"></issues-card>
+                         datetime="{{ $issue->created_at }}"></issues-card>
         </div>
     </div>
 </div>
