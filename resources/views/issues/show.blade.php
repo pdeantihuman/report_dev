@@ -8,6 +8,7 @@
                          location="{{ $issue->alley.' 教 '.$issue->room.'教室' }}"
                          description="{{ $issue->description }}"
                          completed="{{ $completed?1:0 }}"
+                         is_open="{{ $issue->isOpen }}"
                          next_id="{{ $next_id }}"
                          datetime="{{ $issue->created_at }}" @if($issue->isOpen) @else disabled @endif></issues-card>
         </div>
