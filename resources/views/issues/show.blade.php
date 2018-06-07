@@ -9,7 +9,7 @@
                          description="{{ $issue->description }}"
                          completed="{{ $completed?1:0 }}"
                          next_id="{{ $next_id }}"
-                         datetime="{{ $issue->created_at }}"></issues-card>
+                         datetime="{{ $issue->created_at }}" @if($issue->isOpen) @else disabled @endif></issues-card>
         </div>
     </div>
 </div>
