@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Issue;
+use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Hamcrest\Core\Is;
 use Illuminate\Http\Request;
@@ -80,7 +81,7 @@ class IssuesController extends Controller
         $completed = Issue::where('isOpen',true)
             ->whereDate('created_at', now()->toDateString())->doesntExist();
         $next_issue = Issue::where('isOpen',true)
-            ->whereTime('created_at', '<' ,$issue->created_at->toDateTimeString())->first();
+            ->whereTime('created_at', '<' , Carbon::parse($issue->created_at))->first();
         if ($next_issue){
             $next_issue = new Issue();
             $next_issue->id = 0;
