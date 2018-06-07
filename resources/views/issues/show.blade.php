@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <issues-card issues_id="{{ $issue->id }}"
+            <issues-card issue_id="{{ $issue->id }}"
                          location="{{ $issue->alley.' 教 '.$issue->room.'教室' }}"
                          description="{{ $issue->description }}"
                          completed="{{ $completed }}"
