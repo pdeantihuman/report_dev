@@ -53,8 +53,8 @@
             .links > a {
                 color: #636b6f;
                 padding: 0 25px;
-                font-size: 12px;
-                font-weight: 600;
+                font-size: 18px;
+                font-weight: 500;
                 letter-spacing: .1rem;
                 text-decoration: none;
                 text-transform: uppercase;
@@ -62,6 +62,10 @@
 
             .m-b-md {
                 margin-bottom: 30px;
+                background-color: white;
+                height: 124px;
+                border-radius: 30px;
+                padding: 5px 25px;
             }
 
             img {
