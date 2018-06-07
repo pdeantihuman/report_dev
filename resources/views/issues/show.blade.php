@@ -7,7 +7,7 @@
             <issues-card issue_id="{{ $issue->id }}"
                          location="{{ $issue->alley.' 教 '.$issue->room.'教室' }}"
                          description="{{ $issue->description }}"
-                         completed="{{ $completed?"true":"false" }}"
+                         completed="{{ $completed?1:0 }}"
                          next_id="{{ $next_id }}"
                          datetime="{{ $issue->created_at }}"></issues-card>
         </div>
