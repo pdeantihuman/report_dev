@@ -76,7 +76,18 @@ class IssuesController extends Controller
      */
     public function show($id)
     {
-        //
+        $issue = Issue::findOrFail($id);
+        $completed = Issue::where('isOpen',true)
+            ->whereDate('created_at', now()->toDateString())->doesntExist();
+        $next_issue = Issue::where('isOpen',true)
+            ->whereTime('created_at', '<' ,$issue->created_at->toDateTimeString())->first();
+        if ($next_issue){
+            $next_issue = [
+                'id' => 0
+            ];
+        }
+        $next_id = $next_issue->id;
+        return view('',compact('issue','completed','next_id'));
     }
 
     /**
