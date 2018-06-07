@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Issue;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use Hamcrest\Core\Is;
 use Illuminate\Http\Request;
 
@@ -51,6 +52,15 @@ class IssuesController extends Controller
         ]);
         $issue = $issue->fill($request->all());
         $issue->save();
+        $this->emitWechat($issue);
+        return view('issues.home');
+    }
+
+    /**
+     * @param Issue $issue
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    protected function emitWechat(Issue $issue){
         $client = new Client();
         $base_url = env('WXINTERFACE');
         $content = 'content='.substr($issue->description,0,10).'&';
@@ -58,8 +68,7 @@ class IssuesController extends Controller
         $location = 'room='.$issue->alley.'教'.$issue->room.'室'.'&';
         $time = 'time='.$issue->created_at;
         $url = $base_url.'/?'.$content.$url.$location.$time;
-        $res = $client->request('GET',$url);
-        return view('issues.home');
+        $client->request('GET',$url);
     }
 
     public function undo(Request $request){
