@@ -1,4 +1,4 @@
-@extends('layouts.app_with_js')
+@extends('layouts.app_with_js_without_login')
 
 @section('content')
 <div class="container">
@@ -14,7 +14,7 @@
                         <div class="form-group row">
                             <label for="alley" class="col-sm-4 col-form-label text-md-right">教学楼</label>
                             <div class="col-md-6">
-                                <input id="alley" type="number" class="form-control{{ $errors->has('alley') ? ' is-invalid' : '' }}" name="alley" value="{{ $alley }}" required autofocus disabled>
+                                <input id="alley" type="number" class="form-control{{ $errors->has('alley') ? ' is-invalid' : '' }}" name="alley" value="{{ $alley }}" required readonly="readonly">
                                 @if ($errors->has('alley'))
                                     <span class="invalid-feedback">
                                         <strong>{{ $errors->first('alley') }}</strong>
@@ -26,7 +26,7 @@
                         <div class="form-group row">
                             <label for="room" class="col-sm-4 col-form-label text-md-right">教室</label>
                             <div class="col-md-6">
-                                <input id="room" type="number" class="form-control{{ $errors->has('room') ? ' is-invalid' : '' }}" name="room" value="{{ $room }}" required autofocus disabled>
+                                <input id="room" type="number" class="form-control{{ $errors->has('room') ? ' is-invalid' : '' }}" name="room" value="{{ $room }}" required  readonly="readonly">
                                 @if ($errors->has('room'))
                                     <span class="invalid-feedback">
                                         <strong>{{ $errors->first('room') }}</strong>
