@@ -11,6 +11,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+        if (\App\User::where('name', 'john')->doesntExist())
+            $this->call(UsersTableSeeder::class);
+        if (\App\Issue::doesntExist())
+            $this->call(IssuesTableSeeder::class);
     }
 }
