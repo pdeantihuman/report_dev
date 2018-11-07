@@ -1,11 +1,3 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: johnd
- * Date: 2018/6/2
- * Time: 下午4:33
- */?>
-
 @extends('layouts.app_with_js')
 
 @section('content')
