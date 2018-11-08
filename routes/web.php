@@ -26,3 +26,15 @@ Route::post('issues/{issue}/undo','IssuesController@undo');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::prefix('admin')->group(function(){
+    Route::get('configuration', function() {
+        return view('admin.configuration');
+    });
+
+});
+
+Route::prefix('api/environment')->group(function (){
+    Route::patch('/', 'EnvrionmentController@update');
+    Route::get('/', 'EnvrionmentController@index');
+});
