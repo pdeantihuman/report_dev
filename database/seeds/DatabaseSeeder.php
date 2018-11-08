@@ -15,5 +15,6 @@ class DatabaseSeeder extends Seeder
             $this->call(UsersTableSeeder::class);
         if (\App\Issue::doesntExist())
             $this->call(IssuesTableSeeder::class);
+        $this->call(EnvironmentsTableSeeder::class);
     }
 }
