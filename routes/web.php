@@ -18,23 +18,28 @@ Route::get('/', function () {
 Route::resource('issues', 'IssuesController')
     ->only(['create', 'store']);
 
-Route::resource('issues','IssuesController')
-    ->only(['index','update','show'])->middleware('auth');
+Route::resource('issues', 'IssuesController')
+    ->only(['index', 'update', 'show'])->middleware('auth');
 
-Route::post('issues/{issue}/undo','IssuesController@undo');
+Route::post('issues/{issue}/undo', 'IssuesController@undo');
 
 Auth::routes();
 
+Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
+Route::post('/login', 'Auth\LoginController@login');
+Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
+Route::get('/password/reset', 'Auth\ForgotPasswordController@showResetForm')->name('password.request');
+Route::post('/password/reset', 'Auth\ResetPasswordController@reset');
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::prefix('admin')->group(function(){
-    Route::get('configuration', function() {
+Route::prefix('admin')->group(function () {
+    Route::get('configuration', function () {
         return view('admin.configuration');
     });
 
 });
 
-Route::prefix('api/environment')->group(function (){
+Route::prefix('api/environment')->group(function () {
     Route::patch('/', 'EnvrionmentController@update');
     Route::get('/', 'EnvrionmentController@index');
 });
