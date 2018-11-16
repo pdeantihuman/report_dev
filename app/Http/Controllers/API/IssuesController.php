@@ -10,5 +10,6 @@ class IssuesController extends Controller
 {
     public function index(){
 
+        return Issue::orderBy('id', 'desc')->paginate(15);
     }
 }

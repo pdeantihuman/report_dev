@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Issue;
-use App\Traits\IssuesEmitWechat;
+use App\Traits\EmitIssueNotification;
+use App\User;
 use Illuminate\Http\Request;
 
 class IssuesController extends Controller
 {
-    use IssuesEmitWechat;
+    use EmitIssueNotification;
+
     /**
      * Display a listing of the resource.
      *
@@ -16,8 +18,7 @@ class IssuesController extends Controller
      */
     public function index()
     {
-        $issues = Issue::latest()->paginate(20);
-        return view('issues.index',compact('issues'));
+        return view('issues.index');
     }
 
     /**
@@ -29,49 +30,64 @@ class IssuesController extends Controller
     {
         $alley = $request->input('alley');
         $room = $request->input('room');
-        return view('issues.create',compact('alley','room'));
+        return view('issues.create', compact('alley', 'room'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
+     * @param Issue $issue
      * @return \Illuminate\Http\Response
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Exception
      */
     public function store(Request $request, Issue $issue)
     {
         $request->validate([
             'alley' => 'required|numeric|between:1,12',
-            'room' => ['required','integer',function($attribute, $value, $fail) {
-                $int = (int) $value;
-                if ($int / 100 < 1 or $int / 100 > 8 or $int % 100 < 1 or $int % 100 > 30){
+            'room' => ['required', 'integer', function ($attribute, $value, $fail) {
+                $int = (int)$value;
+                if ($int / 100 < 1 or $int / 100 > 8 or $int % 100 < 1 or $int % 100 > 30) {
                     $fail('无效的教室！');
                 }
             }],
             'description' => 'required',
         ]);
-        $issue = $issue->fill($request->all());
+        $alley = $request->input('alley');
+        $room = $request->input('room');
+        $description = $request->input('description');
+        $issue->alley = $request->input('alley');
+        $issue->room = $request->input('room');
+        $issue->description = $request->input('description');
+        $users = User::where('alley', $alley)->get();
+        if ($users->count() > 1) {
+            throw new \Exception();
+        }
+        if ($users->count() == 1) {
+            $user = $users->first();
+            $issue->appointTo($user);
+            $this->emitIssueNotification($issue, $user);
+        }
         $issue->save();
-        $this->emitWechat($issue);
-        return view('issues.home');
+        return redirect('/issues/home/success');
     }
 
     /**
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function undo(Request $request){
+    public function undo(Request $request)
+    {
         $issue = Issue::findOrFail($request->issue);
-        $issue->isOpen = 1;
+        $issue->is_open = 1;
         $issue->save();
-        return response()->json([],200); // TODO: 修改状态码
+        return response()->json([], 200); // TODO: 修改状态码
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -79,27 +95,27 @@ class IssuesController extends Controller
         /**
          * 准备数据
          */
-        $completed = Issue::where('isOpen',true)->whereDate('created_at', now()->toDateString())->doesntExist();
+        $completed = Issue::where('is_open', true)->whereDate('created_at', now()->toDateString())->doesntExist();
         $issue = Issue::findOrFail($id);
-        $next_issue = Issue::where('isOpen',true)
-            ->where('id','<',$issue->id)
-            ->orderBy('id','desc')
+        $next_issue = Issue::where('is_open', true)
+            ->where('id', '<', $issue->id)
+            ->orderBy('id', 'desc')
             ->first();
         /**
          * 处理边界情况，前端做好对应
          */
-        if (is_null($next_issue)){
+        if (is_null($next_issue)) {
             $next_issue = new Issue();
             $next_issue->id = 0;
         }
         $next_id = $next_issue->id;
-        return view('issues.show',compact('issue','completed','next_id'));
+        return view('issues.show', compact('issue', 'completed', 'next_id'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -110,26 +126,31 @@ class IssuesController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
         $issue = Issue::findOrFail($id);
-        $issue->isOpen = false;
+        $issue->is_open = false;
         $issue->save();
-        return response()->json([],200); // TODO: 修改状态码
+        return response()->json([], 200); // TODO: 修改状态码
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         //
+    }
+
+    public function home()
+    {
+        return view('issues.home');
     }
 }

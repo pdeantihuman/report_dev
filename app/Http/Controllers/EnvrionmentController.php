@@ -12,7 +12,7 @@ class EnvrionmentController extends Controller
     public function index(){
         return Environment::all();
     }
-    //
+
     public function update(Request $request){
 
         $key = $request->input('key');
