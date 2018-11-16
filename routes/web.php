@@ -22,6 +22,7 @@ Route::resource('issues', 'IssuesController')
     ->only(['index', 'update', 'show'])->middleware('auth');
 
 Route::post('issues/{issue}/undo', 'IssuesController@undo');
+Route::get('issues/home/success', 'IssuesController@home');
 
 Auth::routes();
 
@@ -43,3 +44,8 @@ Route::prefix('api/environment')->group(function () {
     Route::patch('/', 'EnvrionmentController@update');
     Route::get('/', 'EnvrionmentController@index');
 });
+
+Route::get('api/issues', 'API\IssuesController@index');
+
+Route::patch('api/user/configuration/alley', 'API\UserController@setAlley');
+Route::get('api/user/configuration/user', 'API\UserController@getUser');
