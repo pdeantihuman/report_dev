@@ -8,21 +8,7 @@
                     <div class="card-header">后台管理</div>
                     <div class="card-body">
                         <div class="container">
-                            <ul class="list-group">
-                                @foreach($issues as $issue)
-                                    <issues-item
-                                            issues_id="{{ $issue->id }}"
-                                            location="{{ $issue->alley.' 教 '.$issue->room.'教室' }}"
-                                            description="{{ $issue->description }}"
-                                            is_open="{{ $issue->isOpen }}"
-                                            datetime="{{ $issue->created_at }}"
-                                    >
-                                    </issues-item>
-                                @endforeach
-                                <li class="list-group-item">
-                                    {{ $issues->links() }}
-                                </li>
-                            </ul>
+                            <issues-list></issues-list>
                         </div>
                     </div>
                 </div>
