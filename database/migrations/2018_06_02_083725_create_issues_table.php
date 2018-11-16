@@ -15,10 +15,11 @@ class CreateIssuesTable extends Migration
     {
         Schema::create('issues', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer("alley");
+            $table->integer('alley')->unsigned()->nullable();
             $table->integer('room');
             $table->text('description');
-            $table->boolean('isOpen')->default(True);
+            $table->string('genius_id')->nullable();
+            $table->boolean('is_open')->default(True);
             $table->timestamps();
         });
     }
