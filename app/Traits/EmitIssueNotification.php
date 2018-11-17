@@ -16,7 +16,8 @@ use Log;
 
 trait EmitIssueNotification
 {
-    public function emitIssueNotification(Issue $issue, User $user){
+    protected function emitWeChatNotificaiton(Issue $issue, User $user)
+    {
         $client = new Client([
             'base_uri' => env('WXINTERFACE')
         ]);
@@ -35,7 +36,19 @@ trait EmitIssueNotification
         $response = $client->request('POST', 'message/template/send', [
             'form_params' => $data
         ]);
-        return view('issues.home');
+        return $response;
+    }
+
+    protected function emitSocketNotification($issue, $user){
+        return true; // feat: ok
+    }
+
+
+    public function emitIssueNotification(Issue $issue, User $user)
+    {
+        $this->emitWeChatNotificaiton($issue, $user);
+        $this->emitSocketNotification($issue, $user);
+        return true;
     }
 
 }
