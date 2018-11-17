@@ -101,7 +101,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    <div class="flo"><img src="{{ asset('logo/tianjin.jpg') }}" alt="log"></div>
+                    <div class="flo"><img src="{{ static_resource('logo/tianjin.jpg') }}" alt="log"></div>
                     <span>{{ config('app.name') }}</span>
                 </div>
 

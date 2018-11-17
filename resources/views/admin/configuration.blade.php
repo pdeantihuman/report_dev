@@ -19,5 +19,5 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('js/configuration.js') }}" defer></script>
+    <script src="{{ static_resource('js/configuration.js') }}" defer></script>
 @endsection
