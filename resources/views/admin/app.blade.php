@@ -54,10 +54,19 @@
                                                      document.getElementById('logout-form').submit();">
                                         下线
                                     </a>
-
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
                                     </form>
+
+                                    <a class="dropdown-item" href="/issues/create">
+                                        提交报修
+                                    </a>
+
+                                    <a class="dropdown-item" href="/issues">
+                                        处理报修
+                                    </a>
+
+
                                 </div>
                             </li>
                         @endguest

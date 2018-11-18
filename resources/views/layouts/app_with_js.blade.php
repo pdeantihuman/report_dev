@@ -64,7 +64,12 @@
 
                                 <a class="dropdown-item" href="/admin/configuration">
                                     配置中心
-                                </a></div>
+                                </a>
+
+                                <a class="dropdown-item" href="/issues/create">
+                                    提交报修
+                                </a>
+                            </div>
                         </li>
                     @endguest
                 </ul>
