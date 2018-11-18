@@ -20,15 +20,24 @@ class EnvrionmentController extends Controller
         $value = $request->input('value');
         switch($key){
             case 'minimum_alley':
-                if ($env['minimum_alley']>$env['maximum_alley']){
-                    abort(404);
+                if ($value>$env['maximum_alley']){
+                    $data = [
+                        'errMsg' => 'minimum_alley 不能大于 maximum_alley',
+                        'id' => str_random(10),
+                    ];
+                    return response()->json($data,500);
                 };
                 break;
 
             case 'maximum_alley':
-                if ($env['maximum_alley']<$env['minimum_alley']){
-                    abort(404);
+                if ($value<$env['minimum_alley']){
+                    $data=[
+                        'errMsg' => 'maximum_alley 不能小于 minimum_alley',
+                        'id' => str_random(10),
+                    ];
+                    return response()->json($data,500);
                 };
+
                 break;
             default:
                 break;
@@ -36,6 +45,10 @@ class EnvrionmentController extends Controller
         $item = Environment::where('key', $key)->first();
         $item->value = $value;
         $item->save();
-        return $env;
+        $data = [
+            'key' => $item->key,
+            'value' => $item->value,
+        ];
+        return response()->json($data,200);
     }
 }

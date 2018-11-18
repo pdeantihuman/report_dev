@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\User;
+use function foo\func;
+use function GuzzleHttp\Psr7\str;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class ResetPasswordController extends Controller
 {
@@ -44,11 +47,21 @@ class ResetPasswordController extends Controller
         $name = $request->input('name');
         $old_password = $request->input('old_password');
         $new_password = $request->input('new_password');
-        if(\Auth::attempt(['name' => $name, 'password' => $old_password])){
-            $user = User::where('name', $name)->first();
+        // 表单验证
+        $request->validate([
+            'name' => ['required'],
+            'old_password' => ['required', function ($attribute, $value, $fail) use ($name, $old_password) {
+                if (!\Auth::attempt(['name' => $name, 'password' => $old_password])) {
+                    $fail("用户名或密码错误");
+                }
+            }],
+        ]);
+        // 修改用户密码
+        if (\Auth::attempt(['name' => $name, 'password' => $old_password])) {
+            $user = \Auth::user();
             $user->password = bcrypt($new_password);
             $user->save();
-            return redirect('/home');
         }
+        return redirect('/home');
     }
 }

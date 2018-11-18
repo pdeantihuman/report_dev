@@ -11,6 +11,7 @@ namespace App\Traits;
 
 use App\Issue;
 use App\User;
+use App\Environment;
 use GuzzleHttp\Client;
 use Log;
 
