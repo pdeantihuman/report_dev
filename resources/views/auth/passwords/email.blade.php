@@ -35,11 +35,11 @@
                             <label for="old-password" class="col-md-4 col-form-label text-md-right">旧密码</label>
 
                             <div class="col-md-6">
-                                <input id="old-password" type="password" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="old_password" value="{{ old('email') }}" required>
+                                <input id="old-password" type="password" class="form-control{{ $errors->has('old_password') ? ' is-invalid' : '' }}" name="old_password" value="{{ old('old_password') }}" required>
 
-                                @if ($errors->has('email'))
+                                @if ($errors->has('old_password'))
                                     <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('email') }}</strong>
+                                        <strong>{{ $errors->first('old_password') }}</strong>
                                     </span>
                                 @endif
                             </div>
