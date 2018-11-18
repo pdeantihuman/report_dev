@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Environment;
 use App\Issue;
 use App\Traits\EmitIssueNotification;
 use App\User;
@@ -43,23 +44,26 @@ class IssuesController extends Controller
      */
     public function store(Request $request, Issue $issue)
     {
+        // 获取环境变量
+        $env = Environment::all()->pluck('value', 'key');
+        // 表单验证
         $request->validate([
             'alley' => 'required|numeric|between:1,12',
-            'room' => ['required', 'integer', function ($attribute, $value, $fail) {
+            'room' => ['required', 'integer', function ($attribute, $value, $fail) use ($env){
+                // 将 room 转化为 integer
                 $int = (int)$value;
-                if ($int / 100 < 1 or $int / 100 > 8 or $int % 100 < 1 or $int % 100 > 30) {
+                if ($int / 100 < $env['minimum_alley'] or $int / 100 > $env['maximum_alley'] or $int % 100 < 1 or $int % 100 > 30) {
                     $fail('无效的教室！');
                 }
             }],
             'description' => 'required',
         ]);
-        $alley = $request->input('alley');
-        $room = $request->input('room');
-        $description = $request->input('description');
+        // 填充报修事件参数
         $issue->alley = $request->input('alley');
         $issue->room = $request->input('room');
         $issue->description = $request->input('description');
-        $users = User::where('alley', $alley)->get();
+        // 指派给维修人员
+        $users = User::where('alley', $issue->alley)->get();
         if ($users->count() > 1) {
             throw new \Exception();
         }
@@ -81,6 +85,7 @@ class IssuesController extends Controller
     }
 
     /**
+     * 撤销完成操作
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -133,6 +138,7 @@ class IssuesController extends Controller
 
     /**
      * Update the specified resource in storage.
+     * 将报修状态设置为完成
      *
      * @param  \Illuminate\Http\Request $request
      * @param  int $id
