@@ -48,11 +48,11 @@ class IssuesController extends Controller
         $env = Environment::all()->pluck('value', 'key');
         // 表单验证
         $request->validate([
-            'alley' => 'required|numeric|between:1,12',
+            'alley' => "required|numeric|between:{$env['minimum_alley']},{$env['maximum_alley']}",
             'room' => ['required', 'integer', function ($attribute, $value, $fail) use ($env){
                 // 将 room 转化为 integer
                 $int = (int)$value;
-                if ($int / 100 < $env['minimum_alley'] or $int / 100 > $env['maximum_alley'] or $int % 100 < 1 or $int % 100 > 30) {
+                if ($int / 100 < 1 or $int / 100 > 4 or $int % 100 < 1 or $int % 100 > 30) {
                     $fail('无效的教室！');
                 }
             }],
@@ -70,9 +70,8 @@ class IssuesController extends Controller
         if ($users->count() == 1) {
             $user = $users->first();
             $issue->appointTo($user);
-            $this->emitIssueNotification($issue, $user);
             try {
-                $this->emitIssueNotification($issue, $user);
+//                $this->emitIssueNotification($issue, $user);
             } catch (\GuzzleHttp\Exception\BadResponseException $e) {
                 session([
                     'message'=>  '发送微信推送时出现故障',
