@@ -36,7 +36,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::prefix('admin')->group(function () {
     Route::get('configuration', function () {
         return view('admin.configuration');
-    });
+    })->middleware('auth');
 
 });
 
