@@ -28,6 +28,11 @@ class EnvironmentsTableSeeder extends Seeder
                 'key' => 'reset_password',
                 'value' => '0',
                 'type' => 'boolean'
+            ],
+            [
+                'key' => 'push_socket_notification',
+                'value' => '0',
+                'type' => 'boolean'
             ]
         ];
         DB::table('environments')->insert($default);
