@@ -39,15 +39,27 @@ trait EmitIssueNotification
         return $response;
     }
 
-    protected function emitSocketNotification($issue, $user){
-        return true; // feat: ok
+    protected function emitSocketNotification(Issue $issue, User $user){
+        
+
+        $issue_data=[
+            "alley" => "{$issue->alley}",
+            "room" => "{$issue->room}",
+            "description" =>"{$issue->description}",
+        ];
+        
+        // Redis::publish("issue-genius", json_encode($issue_data)); TODO: 判断环境变量中的 push_notification 是否为 true
+        return true; // feat: 
     }
 
 
     public function emitIssueNotification(Issue $issue, User $user)
     {
+        $env = Environment::all()->pluck('value', 'key');
         $this->emitWeChatNotificaiton($issue, $user);
-        $this->emitSocketNotification($issue, $user);
+        if($env['push_socket_notification'] == '1') {
+            $this->emitSocketNotification($issue, $user);
+        }
         return true;
     }
 
