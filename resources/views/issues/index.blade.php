@@ -4,14 +4,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">后台管理</div>
-                    <div class="card-body">
-                        <div class="container">
-                            <issues-list></issues-list>
-                        </div>
-                    </div>
-                </div>
+                <issues-card></issues-card>
             </div>
         </div>
     </div>
