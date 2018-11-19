@@ -50,3 +50,4 @@ Route::get('api/issues', 'API\IssuesController@index');
 Route::patch('api/user/configuration/alley', 'API\UserController@setAlley');
 Route::get('api/user/configuration/user', 'API\UserController@getUser');
 Route::get('api/user', 'API\UserController@getUser');
+Route::patch('api/user/configuration/openid', 'API\UserController@setOpenid');
