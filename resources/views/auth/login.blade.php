@@ -1,4 +1,4 @@
-@extends('layouts.app_with_js')
+@extends('layouts.admin.app')
 
 @section('content')
 <div class="container">
@@ -52,8 +52,4 @@
         </div>
     </div>
 </div>
-@endsection
-
-@section('scripts')
-    <script src="{{ static_resource('js/app.js') }}" defer></script>
 @endsection

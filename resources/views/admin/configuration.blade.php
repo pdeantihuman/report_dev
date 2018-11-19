@@ -1,12 +1,4 @@
-@extends('admin.app')
-
-@section('title')
-    配置中心
-@endsection
-
-@section('brand')
-    配置中心
-@endsection
+@extends('layouts.admin.app')
 
 @section('content')
     <div class="container">
@@ -18,6 +10,10 @@
     </div>
 @endsection
 
-@section('scripts')
-    <script src="{{ static_resource('js/configuration.js') }}" defer></script>
+@section('static_resource')
+    @component('layouts.components.head.resource')
+        @slot('asset_script')
+            <script src="{{ static_resource('js/configuration.js') }}" defer></script>
+        @endslot
+    @endcomponent
 @endsection
