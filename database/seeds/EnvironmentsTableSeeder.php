@@ -33,6 +33,11 @@ class EnvironmentsTableSeeder extends Seeder
                 'key' => 'push_socket_notification',
                 'value' => '0',
                 'type' => 'boolean'
+            ],
+            [
+                'key' => 'push_wechat_notification',
+                'value' => '0',
+                'type' => 'boolean'
             ]
         ];
         DB::table('environments')->insert($default);

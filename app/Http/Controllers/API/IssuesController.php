@@ -10,9 +10,8 @@ use Illuminate\Support\Facades\Auth;
 class IssuesController extends Controller
 {
     public function index(Request $request){
-        $fif=$request->input('filter','0');
-        if($fif=='0'){
-            $alley = Auth::user()->alley;
+        $filter = $request->input('filter','0');
+        if($filter=='0'){
             return Issue::orderBy('id', 'desc')->paginate(15);
         }
         $alley = Auth::user()->alley;

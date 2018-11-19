@@ -70,14 +70,14 @@ class IssuesController extends Controller
         if ($users->count() == 1) {
             $user = $users->first();
             $issue->appointTo($user);
-            try {
-//                $this->emitIssueNotification($issue, $user);
-            } catch (\GuzzleHttp\Exception\BadResponseException $e) {
-                session([
-                    'message'=>  '发送微信推送时出现故障',
-                    'status' => '500'
-                ]);
-            }
+//            try {
+                $this->emitIssueNotification($issue, $user);
+//            } catch (\GuzzleHttp\Exception\BadResponseException $e) {
+//                session([
+//                    'message'=>  '发送微信推送时出现故障',
+//                    'status' => '500'
+//                ]);
+//            }
         }
         $issue->save();
         return redirect('/issues/home/success');
