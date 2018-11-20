@@ -32,6 +32,7 @@ Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('/password/reset', 'Auth\ForgotPasswordController@showResetForm')->name('password.request');
 Route::post('/password/reset', 'Auth\ResetPasswordController@reset');
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/admin', 'HomeController@admin')->middleware('auth');
 
 Route::prefix('admin')->group(function () {
     Route::get('configuration', function () {
@@ -46,8 +47,10 @@ Route::prefix('api/environment')->group(function () {
 });
 
 Route::get('api/issues', 'API\IssuesController@index');
+Route::get('api/issues/{id}', 'API\IssuesController@show');
 
 Route::patch('api/user/configuration/alley', 'API\UserController@setAlley');
 Route::get('api/user/configuration/user', 'API\UserController@getUser');
 Route::get('api/user', 'API\UserController@getUser');
 Route::patch('api/user/configuration/openid', 'API\UserController@setOpenid');
+Route::get('api/user/configuration/message', 'API\UserController@getMessage');

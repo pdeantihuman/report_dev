@@ -63,7 +63,7 @@ class IssuesController extends Controller
         $issue->room = $request->input('room');
         $issue->description = $request->input('description');
         // 指派给维修人员
-        $users = User::where('alley', $issue->alley)->get();
+        $users = User::whereRaw('json_contains(`alleys`, ?)',['"'.$issue->alley.'"'])->get();
         if ($users->count() > 1) {
             throw new \Exception();
         }
@@ -104,24 +104,7 @@ class IssuesController extends Controller
      */
     public function show($id)
     {
-        /**
-         * 准备数据
-         */
-        $completed = Issue::where('is_open', true)->whereDate('created_at', now()->toDateString())->doesntExist();
-        $issue = Issue::findOrFail($id);
-        $next_issue = Issue::where('is_open', true)
-            ->where('id', '<', $issue->id)
-            ->orderBy('id', 'desc')
-            ->first();
-        /**
-         * 处理边界情况，前端做好对应
-         */
-        if (is_null($next_issue)) {
-            $next_issue = new Issue();
-            $next_issue->id = 0;
-        }
-        $next_id = $next_issue->id;
-        return view('issues.show', compact('issue', 'completed', 'next_id'));
+        return view('issues.show', ['id'=> $id]);
     }
 
     /**
