@@ -1,4 +1,4 @@
-@extends('layouts.app_with_js')
+@extends('layouts.admin.app')
 
 @section('content')
     <div class="container">
@@ -10,6 +10,10 @@
     </div>
 @endsection
 
-@section('scripts')
-    <script src="{{ static_resource('js/index.js') }}" defer></script>
+@section('static_resource')
+    @component('layouts.components.head.resource')
+        @slot('asset_script')
+            <script src="{{ static_resource('js/index.js') }}" defer></script>
+        @endslot
+    @endcomponent
 @endsection

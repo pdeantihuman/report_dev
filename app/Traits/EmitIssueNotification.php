@@ -56,6 +56,12 @@ trait EmitIssueNotification
     }
 
 
+    /**
+     * @param Issue $issue
+     * @param User $user
+     * @return bool
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function emitIssueNotification(Issue $issue, User $user)
     {
         $env = Environment::all()->pluck('value', 'key');
@@ -69,8 +75,19 @@ trait EmitIssueNotification
         return true;
     }
 
+    /**
+     * @param Issue $issue
+     * @param User $user
+     * @return mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Exception
+     */
     public function emitSmartNotification(Issue $issue, User $user)
     {
+        $env = Environment::all()->pluck('value', 'key');
+        if ($env['push_wechat_notification'] == '0'){
+            throw new \Exception('微信通知功能已被禁用');
+        }
         $client = new Client([
             'base_uri' => env('WXINTERFACE1')
         ]);
