@@ -20,6 +20,9 @@
 <body>
 <div id="app">
     @component('layouts.components.nav')
+        @slot('url')
+            /admin
+        @endslot
         @slot('left_side')
         @endslot('left_side')
         @slot('right_side')
@@ -46,10 +49,6 @@
 
                         <a class="dropdown-item" href="/admin/configuration">
                             配置中心
-                        </a>
-
-                        <a class="dropdown-item" href="/issues/create">
-                            提交报修
                         </a>
                     </div>
                 </li>
