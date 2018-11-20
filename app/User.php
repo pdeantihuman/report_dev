@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email',
     ];
 
     /**
@@ -30,4 +30,8 @@ class User extends Authenticatable
     public function request(){
         return $this->hasMany('App\Issue');
     }
+
+    protected $casts = [
+        'alleys' => 'array'
+    ];
 }
