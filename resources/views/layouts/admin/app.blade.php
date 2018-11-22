@@ -50,6 +50,10 @@
                         <a class="dropdown-item" href="/admin/configuration">
                             配置中心
                         </a>
+
+                        <a href="/issues" class="dropdown-item">
+                            处理报修
+                        </a>
                     </div>
                 </li>
             @endguest

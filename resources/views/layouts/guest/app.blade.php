@@ -21,6 +21,9 @@
 <body>
 <div id="app">
     @component('layouts.components.nav')
+        @slot('url')
+            #
+        @endslot
         @slot('left_side')
         @endslot
         @slot('right_side')
