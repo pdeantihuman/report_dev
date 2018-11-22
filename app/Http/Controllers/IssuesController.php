@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Environment;
+use App\Footprint;
 use App\Issue;
 use App\Traits\EmitIssueNotification;
 use App\User;
@@ -31,6 +32,10 @@ class IssuesController extends Controller
     {
         $alley = $request->input('alley');
         $room = $request->input('room');
+        $footprint = new Footprint();
+        $footprint->alley = $alley;
+        $footprint->room = $room;
+        $footprint->save();
         return view('issues.create', compact('alley', 'room'));
     }
 
