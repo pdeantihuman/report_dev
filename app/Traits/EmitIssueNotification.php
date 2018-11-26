@@ -13,8 +13,6 @@ use App\Issue;
 use App\User;
 use App\Environment;
 use GuzzleHttp\Client;
-use Illuminate\Support\Facades\Redis;
-use Log;
 
 trait EmitIssueNotification
 {
