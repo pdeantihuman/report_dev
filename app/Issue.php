@@ -28,7 +28,7 @@ class Issue extends Model
     protected $fillable = ['alley','room','description'];
 
     public function genius() {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\User', 'genius_id');
     }
 
     public function appointTo(User $user){

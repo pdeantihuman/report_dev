@@ -22,6 +22,7 @@ Route::resource('issues', 'IssuesController')
     ->only(['index', 'update', 'show'])->middleware('auth');
 
 Route::post('issues/{issue}/undo', 'IssuesController@undo');
+Route::get('issues/{id}/guest', 'IssuesController@display');
 Route::get('issues/home/success', 'IssuesController@home');
 
 Auth::routes();

@@ -8,6 +8,7 @@ use App\Issue;
 use App\Traits\EmitIssueNotification;
 use App\User;
 use Illuminate\Http\Request;
+use Log;
 
 class IssuesController extends Controller
 {
@@ -17,6 +18,7 @@ class IssuesController extends Controller
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function index()
     {
@@ -27,16 +29,40 @@ class IssuesController extends Controller
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function create(Request $request)
     {
+        $env = Environment::all()->pluck('value', 'key');
         $alley = $request->input('alley');
         $room = $request->input('room');
+        $validator = \Validator::make($request->all(), [
+            'alley' => "required|numeric|between:{$env['minimum_alley']},{$env['maximum_alley']}",
+            'room' => ['required', 'integer', function ($attribute, $value, $fail) use ($env) {
+                $int = (int)$value;
+                if ($int / 100 < 1 or $int / 100 > 4 or $int % 100 < 1 or $int % 100 > 30) {
+                    $fail('无效的教室！');
+                }
+            }]
+        ]);
         $footprint = new Footprint();
         $footprint->alley = $alley;
         $footprint->room = $room;
         $footprint->save();
-        return view('issues.create', compact('alley', 'room'));
+        $issues = Issue::where('created_at', '>', now()->sub(new \DateInterval('PT15M')))
+            ->where('alley', $alley)
+            ->where('room', $room)
+            ->latest();
+        $count = $issues->count();
+        if ($count > 0) {
+            $diff = now()->diff($issues->first()->created_at)->format('%i');
+            $issue = $issues->first();
+            $issue_id = $issue->id;
+        } else {
+            $diff = 0;
+            $issue_id = 0;
+        }
+        return view('issues.create', compact('alley', 'room', 'count', 'diff', 'issue_id'))->withErrors($validator);
     }
 
     /**
@@ -46,6 +72,7 @@ class IssuesController extends Controller
      * @param Issue $issue
      * @return \Illuminate\Http\Response
      * @throws \Exception
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function store(Request $request, Issue $issue)
     {
@@ -54,7 +81,7 @@ class IssuesController extends Controller
         // 表单验证
         $request->validate([
             'alley' => "required|numeric|between:{$env['minimum_alley']},{$env['maximum_alley']}",
-            'room' => ['required', 'integer', function ($attribute, $value, $fail) use ($env){
+            'room' => ['required', 'integer', function ($attribute, $value, $fail) use ($env) {
                 // 将 room 转化为 integer
                 $int = (int)$value;
                 if ($int / 100 < 1 or $int / 100 > 4 or $int % 100 < 1 or $int % 100 > 30) {
@@ -68,7 +95,7 @@ class IssuesController extends Controller
         $issue->room = $request->input('room');
         $issue->description = $request->input('description');
         // 指派给维修人员
-        $users = User::whereRaw('json_contains(`alleys`, ?)',['"'.$issue->alley.'"'])->get();
+        $users = User::whereRaw('json_contains(`alleys`, ?)', ["\"{$issue->alley}\""])->get();
         if ($users->count() > 1) {
             throw new \Exception();
         }
@@ -76,7 +103,7 @@ class IssuesController extends Controller
             $user = $users->first();
             $issue->appointTo($user);
 //            try {
-                $this->emitIssueNotification($issue, $user);
+            $this->emitIssueNotification($issue, $user);
 //            } catch (\GuzzleHttp\Exception\BadResponseException $e) {
 //                session([
 //                    'message'=>  '发送微信推送时出现故障',
@@ -84,6 +111,7 @@ class IssuesController extends Controller
 //                ]);
 //            }
         }
+        Log::info($users->count());
         $issue->save();
         return redirect('/issues/home/success');
     }
@@ -101,6 +129,19 @@ class IssuesController extends Controller
         return response()->json([], 200); // TODO: 修改状态码
     }
 
+    public function display($id)
+    {
+        $issue = Issue::findOrFail($id);
+        $location = "{$issue->alley}教学楼{$issue->room}教室";
+        $status = $issue->is_open=='0'?"已处理":"未处理";
+        $issue_id = $issue->id;
+        $genius = $issue->genius()->first();
+
+        if (isset($genius))
+            $genius_name = $genius->name;
+        return view('issues.display', compact('location','status','genius_name','issue_id'));
+    }
+
     /**
      * Display the specified resource.
      *
@@ -109,7 +150,7 @@ class IssuesController extends Controller
      */
     public function show($id)
     {
-        return view('issues.show', ['id'=> $id]);
+        return view('issues.show', ['id' => $id]);
     }
 
     /**
